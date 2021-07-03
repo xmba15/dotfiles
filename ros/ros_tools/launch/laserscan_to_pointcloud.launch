@@ -1,0 +1,21 @@
+<launch>
+    <arg name="rosbag_path" default=""/>
+    <arg name="base_link" default=""/>
+    <arg name="base_scan" default=""/>
+    <arg name="output_path" default="~"/>
+
+    <arg name="base_cloud" default="base_cloud"/>
+
+    <group if="$(eval arg('rosbag_path') != '' and arg('base_link') != '' and arg('base_scan') != '')">
+      <node pkg="rosbag" type="play" name="rosbag" required="true" args="$(arg rosbag_path)"/>
+      <node pkg="ros_tools" type="laserscan_to_pointcloud_node" name="laserscan_to_pointcloud_node" output="screen">
+        <remap from="~base_scan" to="$(arg base_scan)" />
+        <remap from="base_cloud" to="$(arg base_cloud)" />
+        <param name="~base_link" value="$(arg base_link)" />
+      </node>
+      <node pkg="pcl_ros" type="pointcloud_to_pcd" name="pointcloud_to_pcd">
+        <remap from="input" to="$(arg base_cloud)" />
+        <param name="prefix" value="$(arg output_path)/" />
+      </node>
+    </group>
+</launch>

@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: almostEquals
+# key: almostEquals
+# --
+
+template <typename DataType>
+inline bool almostEquals(DataType input, DataType other, DataType rtol = 1e-05, DataType atol = 1e-08)
+{
+    return std::abs(input - other) <= atol + rtol * std::abs(other);
+}

@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+# name: current_dir
+# key: current_dir
+# --
+
+#!/usr/bin/env python
+import os
+import sys
+
+
+_CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
+sys.path.append(os.path.join(_CURRENT_DIR, "../"))

@@ -1,0 +1,40 @@
+# -*- mode: snippet -*-
+# name: basic_travis
+# key: basic_travis
+# expand-env: ((yas/indent-line 'nil))
+# --
+---
+language:
+  - cpp
+  - python
+
+python:
+  - "3.6"
+
+dist: xenial
+
+sudo: false
+
+compiler:
+  - gcc
+
+before_install:
+  - readonly PARENT_DIR=$(pwd)
+
+install:
+  - ls
+
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+      - llvm-toolchain-trusty
+    packages:
+      - cmake
+
+script:
+  - cd ${PARENT_DIR}
+  - mkdir build
+
+notifications:
+  email: false

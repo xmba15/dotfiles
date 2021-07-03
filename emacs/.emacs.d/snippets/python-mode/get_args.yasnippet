@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: get_args
+# key: get_args
+# --
+
+def get_args():
+    import argparse
+    parser = argparse.ArgumentParser('$1')
+    parser.add_argument('--$0', type=str, default='', help='', dest='')
+
+    return parser.parse_args()

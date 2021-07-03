@@ -1,0 +1,17 @@
+# -*- mode: snippet -*-
+# name: warm_up_gpu
+# key: warm_up_gpu
+# --
+
+__global__ void warmUpGPUKernel()
+{
+    int idx = blockIdx.x * blockDim.x + threadIdx.x;
+    ++idx;
+}
+
+cudaError_t warmUpGPU()
+{
+    warmUpGPUKernel<<<1, 1>>>();
+    cudaDeviceSynchronize();
+    return cudaGetLastError();
+}

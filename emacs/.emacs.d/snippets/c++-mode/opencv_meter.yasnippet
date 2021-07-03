@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: opencv_meter
+# key: opencv_meter
+# --
+
+cv::TickMeter meter;
+
+meter.reset();
+meter.start();
+meter.stop();
+std::cout << meter.getTimeMilli() << "[ms]" << std::endl;

@@ -1,0 +1,39 @@
+# -*- mode: snippet -*-
+# name: cmake_cuda
+# expand-env: ((yas-indent-line 'fixed) (yas-wrap-around-region 'nil))
+# key: cmake_cuda
+# --
+
+cmake_minimum_required(VERSION 3.10)
+
+project(${1:project_name} LANGUAGES CXX)
+set(LIBRARY_NAME \$\{PROJECT_NAME\})
+
+set (CMAKE_CXX_STANDARD 17)
+
+include(CheckLanguage)
+check_language(CUDA)
+if (CMAKE_CUDA_COMPILER)
+  enable_language(CUDA)
+else(CMAKE_CUDA_COMPILER)
+  message(STATUS "CUDA not found")
+  return()
+endif()
+
+add_library(\$\{LIBRARY_NAME\}
+  SHARED
+    \$\{PROJECT_SOURCE_DIR\}/src/${2:source_file}.cpp
+)
+
+set_source_files_properties(
+  \$\{PROJECT_SOURCE_DIR\}/src/$2.cpp
+    PROPERTIES LANGUAGE CUDA
+)
+
+target_compile_options(\$\{LIBRARY_NAME\}
+  INTERFACE
+     $<$<CONFIG:Debug>:-O0 -g -Wall -Werror>
+     $<$<CONFIG:Release>:-O3>
+  PRIVATE
+     $<$<COMPILE_LANGUAGE:CUDA>:-expt-extended-lambda>
+)
