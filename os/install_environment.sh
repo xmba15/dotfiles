@@ -155,8 +155,5 @@ fi
 
 install_basic_package_with_npm diff-so-fancy
 
-# install cask for emacs
-curl -fsSL https://raw.githubusercontent.com/cask/cask/master/go | python
-
 # install conda
 bash install_conda.sh

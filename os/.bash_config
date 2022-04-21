@@ -41,11 +41,6 @@ if command_exists nvcc; then
     export CUDA_VERSION=`nvcc --version | grep release | awk '{print $6}' | cut -c 2-4`
 fi
 
-# emacs cask PATH
-if [ -d $HOME/.cask ]; then
-    export PATH="$HOME/.cask/bin:$PATH"
-fi
-
 # cmake path
 if test -z "${CMAKE_PREFIX_PATH}"; then
   CMAKE_PREFIX_PATH="/usr/local/lib"
