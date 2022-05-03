@@ -45,3 +45,11 @@ sudo systemctl restart docker
 ```bash
 docker run -it --net host --privileged -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=unix$DISPLAY --name [container name] [image name] /bin/bash
 ```
+
+### useful commands ###
+```bash
+docker exec -it /container/id /bin/bash
+
+# copy a local file into container
+docker cp /path/to/local/file container:/docker/directory
+```

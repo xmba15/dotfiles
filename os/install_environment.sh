@@ -63,24 +63,24 @@ sudo apt-get update
 install_basic_package python-dev
 install_basic_package python3-dev
 
-curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
-
 if ! command_exists pip; then
-    python get-pip.py --user || (echo "installation of $1 failed" ; exit 1)
-    source ~/.bashrc
+    curl "https://bootstrap.pypa.io/pip/2.7/get-pip.py" -o "get-pip.py"
+    sudo python get-pip.py || (echo "installation of $1 failed" ; exit 1)
+    rm -rf get-pip.py
 fi
 
 if ! command_exists pip3; then
-    python3 get-pip.py --user || (echo "installation of $1 failed" ; exit 1)
-    source ~/.bashrc
+    curl https://bootstrap.pypa.io/get-pip.py -o "get-pip.py"
+    sudo python3 get-pip.py || (echo "installation of $1 failed" ; exit 1)
+    rm -rf get-pip.py
 fi
 
-rm -rf get-pip.py
+
 
 function install_basic_package_with_pip {
     if ! command_exists $1 && ! pip_package_exists $1; then
         echo "Installing $1"
-        pip install $1 --user || (echo "installation of $1 failed" ; exit 1)
+        sudo pip install $1 || (echo "installation of $1 failed" ; exit 1)
     else
         emojify "Your sytem already has $1 :kissing_smiling_eyes:"
         echo "xxxxxxxxxxxxxxxxxxxxxxx"
@@ -90,7 +90,7 @@ function install_basic_package_with_pip {
 function install_basic_package_with_pip3 {
     if ! command_exists $1 && ! pip3_package_exists $1; then
         echo "Installing $1"
-        pip3 install $1 --user
+        sudo pip3 install $1 || (echo "installation of $1 failed" ; exit 1)
     else
         emojify "Your sytem already has $1 :kissing_smiling_eyes:"
         echo "xxxxxxxxxxxxxxxxxxxxxxx"
@@ -114,7 +114,6 @@ install_basic_package bpython3
 install_basic_package clang-format
 
 echo "###quick fix to install pylint"
-# pip install configparser==3.3.0.post2
 install_basic_package pylint
 # install gtags
 install_basic_package global
@@ -126,7 +125,6 @@ install_basic_package npm #package manager for javascript
 #----------------------------------------------------------------------------
 
 install_basic_package_with_pip cpplint
-install_basic_package_with_pip jupyter
 install_basic_package_with_pip requests
 install_basic_package_with_pip jedi
 install_basic_package_with_pip flake8
@@ -142,7 +140,6 @@ echo "terminator customization"
 if [ -d $HOME/.config/terminator/plugins ]; then
     mkdir -p $HOME/.config/terminator/plugins
     wget https://git.io/v5Zww -O $HOME/.config/terminator/plugins/terminator-themes.py
-    # python $HOME/.config/terminator/plugins/terminator-themes.py
 fi
 
 #----------------------------------------------------------------------------
@@ -156,4 +153,4 @@ fi
 install_basic_package_with_npm diff-so-fancy
 
 # install conda
-bash install_conda.sh
+# bash install_conda.sh
