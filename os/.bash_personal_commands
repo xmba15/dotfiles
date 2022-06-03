@@ -23,12 +23,13 @@ function parse_git_branch {
 }
 
 function parse_local_gitname {
-    local_gitname=`git config --local -l 2> /dev/null | grep user.name | sed -e 's/user.name=//g' -re 's/\w+/[&]/g'`
-    global_gitname=`git config --global -l 2> /dev/null | grep user.name | sed -e 's/user.name=//g' -re 's/\w+/[&]/g'`
-    if [ ! -z $local_gitname ]; then
-        echo $local_gitname"(l)"
-    elif [ ! -z $global_gitname ]; then
-        echo $global_gitname"(g)"
+    local_gitname=`git config --local -l 2> /dev/null | grep user.name | cut -d'=' -f2`
+    global_gitname=`git config --global -l 2> /dev/null | grep user.name | cut -d'=' -f2`
+
+    if [[ $local_gitname ]]; then
+        echo [$local_gitname]"(l)"
+    elif [[ $global_gitname ]]; then
+        echo [$global_gitname]"(g)"
     fi
 }
 
