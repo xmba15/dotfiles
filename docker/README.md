@@ -53,3 +53,10 @@ docker exec -it /container/id /bin/bash
 # copy a local file into container
 docker cp /path/to/local/file container:/docker/directory
 ```
+
+### docker linter ###
+- [Haskell Dockerfile Linter](https://github.com/hadolint/hadolint)
+```bash
+docker pull hadolint/hadolint
+docker run --rm -i hadolint/hadolint < /path/to/Dockerfile
+```

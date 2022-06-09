@@ -5,6 +5,9 @@
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
 
+(unless package-archive-contents
+  (package-refresh-contents))
+
 (unless (package-installed-p 'use-package)
   (progn (package-refresh-contents)
          (package-install 'use-package)))
@@ -182,6 +185,11 @@
 )
 
 (use-package cmake-mode
+  :ensure t
+)
+
+;; docker file mode by spotify
+(use-package dockerfile-mode
   :ensure t
 )
 
