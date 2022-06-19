@@ -24,6 +24,10 @@
   (setq elpy-rpc-backend "jedi")
 )
 
+(use-package pyvenv
+  :ensure t
+)
+
 (use-package py-autopep8
   :ensure t
   :init

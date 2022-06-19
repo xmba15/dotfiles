@@ -15,6 +15,7 @@ fi
 if [ -d $HOME/anaconda3 ]; then
     export PATH=$HOME/anaconda3/bin:$PATH
     conda config --set auto_activate_base false
+    export WORKON_HOME=$HOME/anaconda3/envs/
 fi
 
 # setting for thefuck
