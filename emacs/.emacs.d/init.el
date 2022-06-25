@@ -15,6 +15,7 @@
 (load "~/.emacs.d/extensions/lang_java.el")
 (load "~/.emacs.d/extensions/lang_julia.el")
 (load "~/.emacs.d/extensions/lang_python.el")
+(load "~/.emacs.d/extensions/lang_rust.el")
 (load "~/.emacs.d/extensions/ros.el")
 
 (provide 'init)

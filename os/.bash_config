@@ -49,3 +49,7 @@ else
   CMAKE_PREFIX_PATH="/usr/local/lib:${CMAKE_PREFIX_PATH}"
 fi
 export CMAKE_PREFIX_PATH
+
+if [ -f $HOME/.cargo/env ]; then
+   . "$HOME/.cargo/env"
+fi
