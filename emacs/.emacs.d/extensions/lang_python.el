@@ -47,7 +47,16 @@
   (define-key python-mode-map (kbd "C-c u") (lambda () (interactive) (py-isort-buffer) (blacken-buffer)))
 )
 
-(setq flycheck-flake8-maximum-line-length 120)
-(add-hook 'python-mode-hook 'flymake-python-pyflakes-load)
+(use-package flymake-python-pyflakes
+  :ensure t
+  :hook (python-mode . flymake-python-pyflakes-load)
+)
+
+(use-package numpydoc
+  :ensure t
+  :bind (:map python-mode-map
+              ("C-c M-d" . numpydoc-generate)
+        )
+)
 
 ;;; lang_python.el ends here
