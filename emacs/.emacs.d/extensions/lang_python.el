@@ -2,37 +2,31 @@
 
 (provide 'lang_python)
 
-(use-package jedi-core
+;; install language server pip install python-lsp-server
+(use-package lsp-mode
   :ensure t
   :init
-  (setq jedi:complete-on-dot t)
-  (setq jedi:use-shortcuts t)
-  (add-hook 'python-mode-hook 'jedi:setup)
-  (add-to-list 'company-backends 'company-jedi)
-
-  (defun non-company-mode-hook ()
-    (company-mode -1)
-    )
-  (add-hook 'jedi-mode-hook 'non-company-mode-hook)
+  :hook (python-mode . lsp-deferred)
+  :config
+     (setq lsp-pyls-plugins-mccabe-enabled nil
+           lsp-pyls-plugins-pycodestyle-enabled nil
+           lsp-pyls-plugins-flake8-enabled t
+     )
+    (setq company-minimum-prefix-length 1 company-idle-delay 0.0)
 )
 
-(use-package elpy
+(use-package lsp-ui
   :ensure t
-  :init
-  (advice-add 'python-mode :before 'elpy-enable)
   :config
-  (setq elpy-rpc-backend "jedi")
+    (setq lsp-ui-imenu-enable t)
+    (setq lsp-headerline-breadcrumb-enable t)
 )
 
 (use-package pyvenv
   :ensure t
-)
-
-(use-package py-autopep8
-  :ensure t
-  :init
-  (setq py-autopep8-options '("--max-line-length=120"))
-  (add-hook 'jedi-mode-hook 'py-autopep8-enable-on-save)
+  :config
+    (setq pyvenv-workon "emacs")  ; Default venv
+    (pyvenv-tracking-mode 1)  ; Automatically use pyvenv-workon via dir-locals
 )
 
 (use-package blacken
@@ -43,13 +37,13 @@
   :ensure t
 )
 
-(add-hook 'python-mode-hook
-  (define-key python-mode-map (kbd "C-c u") (lambda () (interactive) (py-isort-buffer) (blacken-buffer)))
-)
-
-(use-package flymake-python-pyflakes
+(use-package python-mode
   :ensure t
-  :hook (python-mode . flymake-python-pyflakes-load)
+  :bind
+    (:map python-mode-map
+              ("C-c u" . (lambda () (interactive) (py-isort-buffer) (blacken-buffer))
+              )
+    )
 )
 
 (use-package numpydoc

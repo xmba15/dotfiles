@@ -15,37 +15,19 @@
   (add-hook 'c-mode-common-hook 'google-make-newline-indent)
 )
 
-(use-package company
+;; install clangd language server
+(use-package lsp-mode
   :ensure t
-  :init
-  (global-company-mode t)
-  (global-set-key (kbd "<C-tab>") 'company-complete)
-  (bind-keys :map company-active-map
-             ("C-n" . company-select-next)
-             ("C-p" . company-select-previous))
-  (bind-keys :map company-search-map
-             ("C-n" . company-select-next)
-             ("C-p" . company-select-previous))
-  (bind-keys :map company-active-map
-             ("<tab>" . company-complete-selection))
-)
-
-(use-package company-lsp
-  :commands company-lsp
-)
-
-;; install clang-dev with the following command in ubuntu
-;; sudo apt-get install libclang-dev
-
-(use-package irony
-  :ensure t
-  :init
-  (add-hook 'c-mode-hook 'irony-mode)
-  (add-hook 'c++-mode-hook 'irony-mode)
-  (add-hook 'objc-mode-hook 'irony-mode)
-  (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
-  (with-eval-after-load 'company
-    (add-to-list 'company-backends 'company-irony))
+  :init (yas-global-mode)
+  :hook (c++-mode . lsp)
+  :hook (c-mode . lsp)
+  :hook (lsp-managed-mode .
+                (lambda () (setq-local company-backends '(company-capf)))
+        )
+  :config
+    (setq lsp-prefer-flymake nil)
+    (setq lsp-enable-links nil)
+    (setq company-minimum-prefix-length 1 company-idle-delay 0.0)
 )
 
 (use-package company-c-headers
@@ -53,24 +35,12 @@
   :init
   (add-to-list 'company-backends 'company-c-headers)
   (setq company-c-headers-path-system '(
-                                        "/usr/include/c++/5"
+                                        "/usr/include/c++/9/"
                                         "/usr/include"
                                         "/usr/local/include"
                                         "/usr/include/eigen3"
                                         "/usr/local/include/eigen3"
                                         ))
-)
-
-;; When executing irony-install-server,
-;;  you need to add a flag
-;; -DCMAKE_PREFIX_PATH=/usr/local/opt/llvm
-;;  after cmake to specify where the llvm is. Finally everything is ok.
-
-(use-package flycheck-irony
-  :ensure t
-  :init
-  (eval-after-load 'flycheck
-    '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
 )
 
 ;; set clang-format
@@ -81,13 +51,13 @@
          ("C-c u" . clang-format-buffer)
         )
   :init
+  :config
   (setq clang-format-style-option "llvm")
 )
 
 (use-package cuda-mode
   :ensure t
 )
-(push 'cuda-mode irony-supported-major-modes)
 
 (provide 'lang_c_c++)
 ;;; lang_c_c++.el ends here

@@ -99,6 +99,7 @@
   :init
   (global-flycheck-mode t)
   (setq flycheck-flake8-maximum-line-length 120)
+  (setq-default flycheck-disabled-checkers '(python-pylint))
 )
 
 ;; company setting
@@ -192,6 +193,21 @@
 ;; docker file mode by spotify
 (use-package dockerfile-mode
   :ensure t
+)
+
+(use-package company
+  :ensure t
+  :init
+  (global-company-mode t)
+  (global-set-key (kbd "<C-tab>") 'company-complete)
+  (bind-keys :map company-active-map
+             ("C-n" . company-select-next)
+             ("C-p" . company-select-previous))
+  (bind-keys :map company-search-map
+             ("C-n" . company-select-next)
+             ("C-p" . company-select-previous))
+  (bind-keys :map company-active-map
+             ("<tab>" . company-complete-selection))
 )
 
 ;;; packages.el ends here
