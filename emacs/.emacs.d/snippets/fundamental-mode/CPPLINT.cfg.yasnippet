@@ -3,4 +3,14 @@
 # key: CPPLINT.cfg
 # --
 
-filter=-whitespace/braces,-runtime/references,-build/include_order,-build/header_guard
+
+set noparent
+
+filter=-legal/copyright
+filter=-whitespace/braces
+filter=-build/header_guard
+filter=+build/pragma_once
+filter=-build/include_order
+filter=-build/include_subdir
+filter=-build/c++11
+linelength=120
