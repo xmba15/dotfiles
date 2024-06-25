@@ -1,0 +1,21 @@
+# -*- mode: snippet -*-
+# name: timerf
+# key: timerf
+# --
+
+from functools import wraps
+import time
+
+
+def timerf(
+    func,
+):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        tic = time.perf_counter()
+        try:
+            return func(*args, **kwargs)
+        finally:
+            out_msg = f"{func.__name__} took {time.perf_counter() - tic}[s]"
+            print(out_msg)
+    return wrapper

@@ -1,0 +1,22 @@
+# -*- mode: snippet -*-
+# name: timer
+# key: timer
+# --
+import contextlib
+import time
+
+
+@contextlib.contextmanager
+def timer(
+    message: str = "",
+    opt_logger=None,
+):
+    tic = time.perf_counter()
+    try:
+        yield
+    finally:
+        out_msg = f"{message} took {time.perf_counter() - tic}[s]"
+        if opt_logger is not None:
+            opt_logger.info(out_msg)
+        else:
+            print(out_msg)
