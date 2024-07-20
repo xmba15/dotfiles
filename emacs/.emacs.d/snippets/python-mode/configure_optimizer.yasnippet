@@ -1,0 +1,20 @@
+# -*- mode: snippet -*-
+# name: configure_optimizer
+# key: configure_optimizer
+# --
+
+def configure_optimizers(self):
+    optimizer = get_object_from_dict(
+        self.hparams["optimizer"],
+        params=[x for x in self.parameters() if x.requires_grad],
+    )
+
+    scheduler = {
+        "scheduler": get_object_from_dict(
+            self.hparams["scheduler"],
+            optimizer=optimizer,
+        ),
+        "monitor": "val_loss",
+    }
+
+    return [optimizer], [scheduler]
